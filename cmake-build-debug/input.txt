@@ -1,7 +1,22 @@
-1 2 3
-op 1 open 1 door 0
-op 1 g sre
-op 1 u xiaop
-xiaoc 2 sre ops open door room302
-xiaop 1 ops open door room501
-xiaoc 2 sre ops remove door room302
+20 1 10
+1 14
+4 21
+5 16
+6 21
+7 9
+9 23
+12 14
+13 25
+14 24
+16 30
+17 17
+18 18
+20 24
+21 6
+22 23
+24 25
+27 1
+28 21
+29 23
+30 5
+17

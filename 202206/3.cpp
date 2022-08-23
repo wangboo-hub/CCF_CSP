@@ -34,7 +34,8 @@ struct role_relation {
 
 int main(){
 #ifdef test
-    freopen("input.txt", "r", stdin);
+    freopen("input.txt","r",stdin);
+    freopen("output.txt","w",stdout);
 #endif
     int n,m,q;cin>>n>>m>>q;
     vector<role> roles(n);

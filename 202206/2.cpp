@@ -10,7 +10,8 @@ set<pair<int, int>> s;
 
 int main() {
 #ifdef test
-    freopen("input.txt", "r", stdin);
+    freopen("input.txt","r",stdin);
+    freopen("output.txt","w",stdout);
 #endif
 
     int n, L, S;

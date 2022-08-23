@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include <cstdio>
-#define cin_from_file
+#define test
 
 using namespace std;
 
@@ -16,7 +16,6 @@ double mean(double *arr, int n) {
 }
 
 double std_dev(double *arr, int n,double mean_) {
-//    double mean_ = mean(arr, n);
     double sum = 0;
     for (int i = 0; i < n; i++) {
         sum += (arr[i] - mean_) * (arr[i] - mean_);
@@ -24,21 +23,18 @@ double std_dev(double *arr, int n,double mean_) {
     return sqrt(sum / n);
 }
 
-double normolize(double *arr, int n) {
+void normolize(double *arr, int n) {
     double mean_ = mean(arr, n);
     double std_dev_ = std_dev(arr, n, mean_);
-    for (int i = 0; i < n; i++) {
-//        arr[i] = (arr[i] - mean_) / std_dev_;
+    for (int i = 0; i < n; i++)
         cout<<(arr[i] - mean_) / std_dev_<<endl;
 
-    }
-    return 0;
 }
 
 int main(){
-
-#ifdef cin_from_file
+#ifdef test
     freopen("input.txt","r",stdin);
+    freopen("output.txt","w",stdout);
 #endif
 
     int n;cin>>n;
