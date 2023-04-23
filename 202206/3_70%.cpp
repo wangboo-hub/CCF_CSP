@@ -4,9 +4,6 @@
 #include <vector>
 #include <set>
 #include <map>
-#include <cassert>
-
-#define test
 using namespace std;
 
 struct user {
@@ -29,10 +26,6 @@ struct role {
 };
 
 int main() {
-#ifdef test
-    freopen("input.txt","r",stdin);
-    freopen("output.txt","w",stdout);
-#endif
     int n, m, q;
     cin >> n >> m >> q;
     vector<role> roles(n);

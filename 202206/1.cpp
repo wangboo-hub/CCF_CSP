@@ -2,7 +2,6 @@
 #include <iostream>
 #include <cmath>
 #include <cstdio>
-#define test
 
 using namespace std;
 
@@ -33,10 +32,6 @@ void normolize(double *arr, int n) {
 }
 
 int main(){
-#ifdef test
-    freopen("input.txt","r",stdin);
-    freopen("output.txt","w",stdout);
-#endif
 
     int n;cin>>n;
     for(int i=0;i<n;i++){

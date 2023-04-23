@@ -3,17 +3,12 @@
 #include <cstdio>
 #include <set>
 
-#define test
 using namespace std;
 
 int b[55][55];
 set<pair<int, int>> s;
 
 int main() {
-#ifdef test
-    freopen("input.txt","r",stdin);
-    freopen("output.txt","w",stdout);
-#endif
 
     int n, L, S;
     cin >> n >> L >> S;
