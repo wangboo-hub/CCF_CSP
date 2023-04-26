@@ -6,17 +6,16 @@
 #include <string>
 #include <unordered_map>
 using namespace std;
-int n;
 unordered_map<int, unordered_map<int, set<int>>> users;
 unordered_map<int, set<int>> attrName;
-int id, cnt, x, y;
-int m;
+int n, m, id, cnt, x, y;
+
 set<int> atom(string s) {
     set<int> res;
     int t = 0;
-    while (s[t] != ':' && s[t] != '~') {
+    while (s[t] != ':' && s[t] != '~')
         t++;
-    }
+
     int idx = stoi(s.substr(0, t));
     char op = s[t];
     int num = stoi(s.substr(t + 1, s.size() - t - 1));
@@ -26,14 +25,11 @@ set<int> atom(string s) {
         set<int> temp;
         res.insert(attrName[idx].begin(), attrName[idx].end());
         for (auto it: users[idx][num]) {
-
-            if (res.count(it)) {
+            if (res.count(it))
                 temp.insert(it);
-            }
         }
-        for (auto it: temp) {
+        for (auto it: temp)
             res.erase(it);
-        }
     }
     return res;
 }
@@ -47,11 +43,10 @@ set<int> exper(string s) {
         st.push('(');
         while (!st.empty()) {
             ++p;
-            if (s[p] == '(') {
+            if (s[p] == '(')
                 st.push(s[p]);
-            } else if (s[p] == ')') {
+            else if (s[p] == ')')
                 st.pop();
-            }
         }
         string s1 = s.substr(2, p - 2);
         string s2 = s.substr(p + 2, s.size() - p - 3);
@@ -60,14 +55,10 @@ set<int> exper(string s) {
         if (s[0] == '|') {
             ret.insert(res1.begin(), res1.end());
             ret.insert(res2.begin(), res2.end());
-        } else {
-            //  求交集
-            for (auto it: res1) {
-                if (res2.find(it) != res2.end()) {
+        } else
+            for (auto it: res1)
+                if (res2.find(it) != res2.end())
                     ret.insert(it);
-                }
-            }
-        }
     }
     return ret;
 }
@@ -89,9 +80,8 @@ int main() {
     while (m--) {
         cin >> op;
         set<int> res = exper(op);
-        for (auto it: res) {
+        for (auto it: res)
             cout << it << " ";
-        }
         cout << endl;
     }
     return 0;
