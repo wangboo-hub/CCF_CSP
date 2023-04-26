@@ -2,125 +2,97 @@
 #include <iostream>
 #include <map>
 #include <set>
-#include <sstream>
+#include <stack>
 #include <string>
-
+#include <unordered_map>
 using namespace std;
 int n;
-struct User {
-    int dn, num;
-    map<int, int> attr;
-};
-map<int, User> users;
+unordered_map<int, unordered_map<int, set<int>>> users;
+unordered_map<int, set<int>> attrName;
 int id, cnt, x, y;
 int m;
-set<int> check(int id, int num, char op) {
+set<int> atom(string s) {
     set<int> res;
+    int t = 0;
+    while (s[t] != ':' && s[t] != '~') {
+        t++;
+    }
+    int idx = stoi(s.substr(0, t));
+    char op = s[t];
+    int num = stoi(s.substr(t + 1, s.size() - t - 1));
     if (op == ':') {
-        for (auto it: users) {
-            if (it.second.attr[id] == num) {
-                res.insert(it.first);
+        res.insert(users[idx][num].begin(), users[idx][num].end());
+    } else {
+        set<int> temp;
+        res.insert(attrName[idx].begin(), attrName[idx].end());
+        for (auto it: users[idx][num]) {
+
+            if (res.count(it)) {
+                temp.insert(it);
             }
         }
-    } else {
-        for (auto it: users) {
-            if (it.second.attr[id] != num && it.second.attr[id] != 0) {
-                res.insert(it.first);
-            }
+        for (auto it: temp) {
+            res.erase(it);
         }
     }
     return res;
 }
-
+set<int> exper(string s) {
+    set<int> ret;
+    if (s[0] >= '0' && s[0] <= '9') {
+        ret = atom(s);
+    } else {
+        stack<char> st;
+        int p = 1;
+        st.push('(');
+        while (!st.empty()) {
+            ++p;
+            if (s[p] == '(') {
+                st.push(s[p]);
+            } else if (s[p] == ')') {
+                st.pop();
+            }
+        }
+        string s1 = s.substr(2, p - 2);
+        string s2 = s.substr(p + 2, s.size() - p - 3);
+        set<int> res1 = exper(s1);
+        set<int> res2 = exper(s2);
+        if (s[0] == '|') {
+            ret.insert(res1.begin(), res1.end());
+            ret.insert(res2.begin(), res2.end());
+        } else {
+            //  求交集
+            for (auto it: res1) {
+                if (res2.find(it) != res2.end()) {
+                    ret.insert(it);
+                }
+            }
+        }
+    }
+    return ret;
+}
 int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
     cin >> n;
     for (int i = 0; i < n; i++) {
         cin >> id >> cnt;
-        users[id].dn = id;
-        users[id].num = cnt;
         for (int j = 0; j < cnt; j++) {
             cin >> x >> y;
-            users[id].attr[x] = y;
+            users[x][y].insert(id);
+            attrName[x].insert(id);
         }
     }
     cin >> m;
     string op;
-
     while (m--) {
-        set<int> res;
-        int id1 = 0, num1 = 0, id2 = 0, num2 = 0;
         cin >> op;
-        char c = op[0];
-        if (c == '|' || c == '&') {
-            int i = 2;
-            for (i = 2;; ++i) {
-                if (op[i] >= '0' && op[i] <= '9') {
-                    id1 = id1 * 10 + op[i] - '0';
-                } else {
-                    break;
-                }
-            }
-            char op1 = op[i];
-            for (i = i + 1;; ++i) {
-                if (op[i] >= '0' && op[i] <= '9') {
-                    num1 = num1 * 10 + op[i] - '0';
-                } else {
-                    break;
-                }
-            }
-
-            i += 2;
-            for (;; ++i) {
-                if (op[i] >= '0' && op[i] <= '9') {
-                    id2 = id2 * 10 + op[i] - '0';
-                } else {
-                    break;
-                }
-            }
-            char op2 = op[i];
-            for (i = i + 1;; ++i) {
-                if (op[i] >= '0' && op[i] <= '9') {
-                    num2 = num2 * 10 + op[i] - '0';
-                } else {
-                    break;
-                }
-            }
-            set<int> u1 = check(id1, num1, op1);
-            set<int> u2 = check(id2, num2, op2);
-            if (c == '|') {
-
-                set_union(u1.begin(), u1.end(), u2.begin(), u2.end(),
-                          inserter(res, res.begin()));
-
-            } else {
-
-                set_intersection(u1.begin(), u1.end(), u2.begin(), u2.end(),
-                                 inserter(res, res.begin()));
-            }
-        } else {
-            int i = 0;
-            for (i = 0;; ++i) {
-                if (op[i] >= '0' && op[i] <= '9') {
-                    id1 = id1 * 10 + op[i] - '0';
-                } else {
-                    break;
-                }
-            }
-            char op1 = op[i];
-            for (i = i + 1;; ++i) {
-                if (op[i] >= '0' && op[i] <= '9') {
-                    num1 = num1 * 10 + op[i] - '0';
-                } else {
-                    break;
-                }
-            }
-            res = check(id1, num1, op1);
-        }
+        set<int> res = exper(op);
         for (auto it: res) {
             cout << it << " ";
         }
         cout << endl;
     }
-
     return 0;
 }

@@ -1,3 +1,0 @@
-/cygdrive/e/CCF_CSP/cmake-build-debug/CMakeFiles/CCF_CSP.dir
-/cygdrive/e/CCF_CSP/cmake-build-debug/CMakeFiles/edit_cache.dir
-/cygdrive/e/CCF_CSP/cmake-build-debug/CMakeFiles/rebuild_cache.dir
